@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScholarMate AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar" aria-label="Student tools">
+        <div class="brand">
+          <div class="brand-mark">SM</div>
+          <div>
+            <h1>ScholarMate</h1>
+            <p>Academic support assistant</p>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <span>Student Profile</span>
+            <button id="resetProfile" class="icon-button" type="button" title="Reset profile">R</button>
+          </div>
+          <label>
+            Level
+            <select id="studentLevel">
+              <option>High school</option>
+              <option selected>College / University</option>
+              <option>Graduate school</option>
+              <option>Professional certification</option>
+            </select>
+          </label>
+          <label>
+            Subject focus
+            <input id="subjectFocus" type="text" placeholder="e.g. Biology, Calculus, Literature" />
+          </label>
+          <label>
+            Support style
+            <select id="supportStyle">
+              <option selected>Socratic tutor</option>
+              <option>Direct explainer</option>
+              <option>Study coach</option>
+              <option>Exam drill partner</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="panel stat-grid" aria-label="Session stats">
+          <div>
+            <strong id="questionCount">0</strong>
+            <span>questions</span>
+          </div>
+          <div>
+            <strong id="focusMode">Tutor</strong>
+            <span>mode</span>
+          </div>
+        </section>
+      </aside>
+
+      <section class="main-stage">
+        <header class="hero">
+          <div>
+            <p class="eyebrow">Academic support, tuned to the student</p>
+            <h2>Ask, learn, plan, revise, practice.</h2>
+            <p class="hero-copy">ScholarMate helps with explanations, study plans, assignment breakdowns, quiz practice, writing feedback, research structure, and revision strategy.</p>
+          </div>
+          <div class="orbit" aria-hidden="true">
+            <span>PI</span>
+            <span>DNA</span>
+            <span>SUM</span>
+            <span>MLA</span>
+          </div>
+        </header>
+
+        <nav class="quick-actions" aria-label="Quick academic actions">
+          <button type="button" data-prompt="Explain this topic step by step, then give me a simple example: ">
+            <span>Explain</span>
+            <small>Break down a concept</small>
+          </button>
+          <button type="button" data-prompt="Create a realistic study plan for this goal, with daily tasks and checkpoints: ">
+            <span>Study Plan</span>
+            <small>Organize revision</small>
+          </button>
+          <button type="button" data-prompt="Quiz me on this topic. Ask one question at a time and wait for my answer: ">
+            <span>Quiz Me</span>
+            <small>Practice actively</small>
+          </button>
+          <button type="button" data-prompt="Review this draft for clarity, structure, evidence, grammar, and academic tone: ">
+            <span>Review Draft</span>
+            <small>Improve writing</small>
+          </button>
+        </nav>
+
+        <section class="chat-card" aria-label="Assistant conversation">
+          <div id="chatLog" class="chat-log" aria-live="polite">
+            <article class="message assistant">
+              <div class="avatar">AI</div>
+              <div class="bubble">
+                <strong>Hi, I'm ScholarMate.</strong>
+                <p>Tell me what you're working on. I can explain tough topics, build study plans, quiz you, outline essays, debug code, summarize notes, or help you think through assignments ethically.</p>
+              </div>
+            </article>
+          </div>
+
+          <form id="chatForm" class="composer">
+            <textarea id="studentInput" rows="1" placeholder="Ask anything academic: paste a question, notes, draft, problem, or goal..." required></textarea>
+            <button id="sendButton" type="submit">Send</button>
+          </form>
+        </section>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="./config.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

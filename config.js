@@ -1,0 +1,4 @@
+window.SCHOLARMATE_CONFIG = {
+  GEMINI_API_KEY: "AQ.Ab8RN6I7u-QURhbPAmFABInwXl3in953KPA6CPyltdocXEgVxA",
+  GEMINI_MODEL: "gemini-3.5-flash",
+};
