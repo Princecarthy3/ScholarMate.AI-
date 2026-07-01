@@ -124,14 +124,21 @@ async function askGemini(question) {
       payload.previous_interaction_id = previousInteractionId;
     }
 
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": apiKey,
-      },
-      body: JSON.stringify(payload),
-    });
+    const response = await fetch("/api/chat", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        message: userPrompt
+    })
+});
+
+const data = await response.json();
+
+const reply =
+    data.candidates?.[0]?.content?.parts?.[0]?.text ||
+    "No response";
 
     const data = await response.json();
     if (!response.ok) {
