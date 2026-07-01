@@ -124,79 +124,30 @@ async function askGemini(question) {
       payload.previous_interaction_id = previousInteractionId;
     }
 
-    const response = await fetch("/api/chat", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        message: userPrompt
-    })
+   const response = await fetch("/api/chat", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    message: question,
+  }),
 });
 
 const data = await response.json();
 
-const reply =
-    data.candidates?.[0]?.content?.parts?.[0]?.text ||
-    "No response";
-
-    const data = await response.json();
-    if (!response.ok) {
-      const message = data.error?.message || `Gemini returned HTTP ${response.status}`;
-      throw new Error(message);
-    }
-
-    previousInteractionId = data.id || previousInteractionId;
-    localStorage.setItem("scholarmate.previousInteractionId", previousInteractionId);
-    questions += 1;
-    localStorage.setItem("scholarmate.questions", questions.toString());
-
-    responseBubble.classList.remove("loading");
-    responseBubble.textContent = extractOutputText(data);
-    updateStats();
-  } catch (error) {
-    responseBubble.classList.remove("loading");
-    responseBubble.textContent = `I couldn't answer right now.\n\n${error.message}\n\nPlease try again in a moment.`;
-  } finally {
-    els.sendButton.disabled = false;
-    els.studentInput.focus();
-    els.chatLog.scrollTop = els.chatLog.scrollHeight;
-  }
+if (!response.ok) {
+  throw new Error(data.error || `HTTP ${response.status}`);
 }
 
-els.chatForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const question = els.studentInput.value.trim();
-  if (!question) return;
-  els.studentInput.value = "";
-  els.studentInput.style.height = "auto";
-  askGemini(question);
-});
+responseBubble.classList.remove("loading");
+responseBubble.textContent =
+  data.candidates?.[0]?.content?.parts?.[0]?.text ||
+  "No response received.";
 
-els.studentInput.addEventListener("input", () => {
-  els.studentInput.style.height = "auto";
-  els.studentInput.style.height = `${els.studentInput.scrollHeight}px`;
-});
-
-document.querySelectorAll(".quick-actions button").forEach((button) => {
-  button.addEventListener("click", () => {
-    els.studentInput.value = button.dataset.prompt;
-    els.studentInput.focus();
-    els.studentInput.dispatchEvent(new Event("input"));
-  });
-});
-
-[els.studentLevel, els.subjectFocus, els.supportStyle].forEach((control) => {
-  control.addEventListener("input", persistSettings);
-  control.addEventListener("change", persistSettings);
-});
-
-els.resetProfile.addEventListener("click", () => {
-  previousInteractionId = "";
-  questions = 0;
-  localStorage.removeItem("scholarmate.previousInteractionId");
-  localStorage.setItem("scholarmate.questions", "0");
-  updateStats();
+questions += 1;
+localStorage.setItem("scholarmate.questions", questions.toString());
+updateStats();
   showToast("Session memory reset.");
 });
 
