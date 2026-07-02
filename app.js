@@ -95,10 +95,12 @@ function extractOutputText(data) {
 
   return textBlocks.join("\n").trim() || "I received a response, but could not find text in it.";
 }
-console.log("askGemini called with:", question);
+
 async function askGemini(question) {
+  console.log("askGemini called with:", question);
 
   addMessage("user", question);
+
   const responseBubble = addMessage(
     "assistant",
     "Thinking through this...",
@@ -106,8 +108,10 @@ async function askGemini(question) {
   );
 
   els.sendButton.disabled = true;
-  console.log("Sending request to /api/chat");
+
   try {
+    console.log("Sending request to /api/chat");
+
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: {
@@ -118,7 +122,11 @@ async function askGemini(question) {
       }),
     });
 
+    console.log("Status:", response.status);
+
     const data = await response.json();
+
+    console.log("Response data:", data);
 
     if (!response.ok) {
       throw new Error(data.error || `HTTP ${response.status}`);
@@ -134,13 +142,27 @@ async function askGemini(question) {
     updateStats();
 
   } catch (error) {
+    console.error("Chat error:", error);
+
     responseBubble.classList.remove("loading");
     responseBubble.textContent =
       `I couldn't answer right now.\n\n${error.message}`;
-
   } finally {
     els.sendButton.disabled = false;
     els.studentInput.focus();
     els.chatLog.scrollTop = els.chatLog.scrollHeight;
   }
 }
+
+els.chatForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const question = els.studentInput.value.trim();
+
+  if (!question) return;
+
+  els.studentInput.value = "";
+  els.studentInput.style.height = "auto";
+
+  askGemini(question);
+});
