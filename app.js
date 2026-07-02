@@ -98,7 +98,6 @@ function extractOutputText(data) {
 
 async function askGemini(question) {
   const apiKey = assistantConfig.apiKey.trim();
-  const model = assistantConfig.model.trim() || "gemini-3.5-flash";
 
   if (!apiKey) {
     showToast("Assistant setup is not complete yet.");
@@ -106,49 +105,48 @@ async function askGemini(question) {
   }
 
   addMessage("user", question);
-  const responseBubble = addMessage("assistant", "Thinking through this...", true);
+  const responseBubble = addMessage(
+    "assistant",
+    "Thinking through this...",
+    true
+  );
+
   els.sendButton.disabled = true;
 
   try {
-    const payload = {
-      model,
-      system_instruction: systemInstruction,
-      input: buildInput(question),
-      generation_config: {
-        temperature: 0.7,
-        thinking_level: "low",
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    };
+      body: JSON.stringify({
+        message: question,
+      }),
+    });
 
-    if (previousInteractionId) {
-      payload.previous_interaction_id = previousInteractionId;
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || `HTTP ${response.status}`);
     }
 
-   const response = await fetch("/api/chat", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    message: question,
-  }),
-});
+    responseBubble.classList.remove("loading");
+    responseBubble.textContent =
+      data.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "No response received.";
 
-const data = await response.json();
+    questions += 1;
+    localStorage.setItem("scholarmate.questions", questions.toString());
+    updateStats();
 
-if (!response.ok) {
-  throw new Error(data.error || `HTTP ${response.status}`);
+  } catch (error) {
+    responseBubble.classList.remove("loading");
+    responseBubble.textContent =
+      `I couldn't answer right now.\n\n${error.message}`;
+
+  } finally {
+    els.sendButton.disabled = false;
+    els.studentInput.focus();
+    els.chatLog.scrollTop = els.chatLog.scrollHeight;
+  }
 }
-
-responseBubble.classList.remove("loading");
-responseBubble.textContent =
-  data.candidates?.[0]?.content?.parts?.[0]?.text ||
-  "No response received.";
-
-questions += 1;
-localStorage.setItem("scholarmate.questions", questions.toString());
-updateStats();
-  showToast("Session memory reset.");
-});
-
-init();
