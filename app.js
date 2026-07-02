@@ -95,11 +95,9 @@ function extractOutputText(data) {
 
   return textBlocks.join("\n").trim() || "I received a response, but could not find text in it.";
 }
-
+console.log("askGemini called with:", question);
 async function askGemini(question) {
-  const apiKey = assistantConfig.apiKey.trim();
 
- 
   addMessage("user", question);
   const responseBubble = addMessage(
     "assistant",
@@ -108,7 +106,7 @@ async function askGemini(question) {
   );
 
   els.sendButton.disabled = true;
-
+  console.log("Sending request to /api/chat");
   try {
     const response = await fetch("/api/chat", {
       method: "POST",
