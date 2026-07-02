@@ -99,11 +99,7 @@ function extractOutputText(data) {
 async function askGemini(question) {
   const apiKey = assistantConfig.apiKey.trim();
 
-  if (!apiKey) {
-    showToast("Assistant setup is not complete yet.");
-    return;
-  }
-
+ 
   addMessage("user", question);
   const responseBubble = addMessage(
     "assistant",
