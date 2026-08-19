@@ -1,121 +1,28 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ScholarMate AI</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <main class="app-shell">
-      <aside class="sidebar" aria-label="Student tools">
-        <div class="brand">
-          <div class="brand-mark">SM</div>
-          <div>
-            <h1>ScholarMate</h1>
-            <p>Academic support assistant</p>
-          </div>
-        </div>
-
-        <section class="panel">
-          <div class="panel-heading">
-            <span>Student Profile</span>
-            <button id="resetProfile" class="icon-button" type="button" title="Reset profile">R</button>
-          </div>
-          <label>
-            Level
-            <select id="studentLevel">
-              <option>High school</option>
-              <option selected>College / University</option>
-              <option>Graduate school</option>
-              <option>Professional certification</option>
-            </select>
-          </label>
-          <label>
-            Subject focus
-            <input id="subjectFocus" type="text" placeholder="e.g. Biology, Calculus, Literature" />
-          </label>
-          <label>
-            Support style
-            <select id="supportStyle">
-              <option selected>Socratic tutor</option>
-              <option>Direct explainer</option>
-              <option>Study coach</option>
-              <option>Exam drill partner</option>
-            </select>
-          </label>
-        </section>
-
-        <section class="panel stat-grid" aria-label="Session stats">
-          <div>
-            <strong id="questionCount">0</strong>
-            <span>questions</span>
-          </div>
-          <div>
-            <strong id="focusMode">Tutor</strong>
-            <span>mode</span>
-          </div>
-        </section>
-      </aside>
-
-      <section class="main-stage">
-        <header class="hero">
-          <div>
-            <p class="eyebrow">Academic support, tuned to the student</p>
-            <h2>Ask, learn, plan, revise, practice.</h2>
-            <p class="hero-copy">ScholarMate helps with explanations, study plans, assignment breakdowns, quiz practice, writing feedback, research structure, and revision strategy.</p>
-          </div>
-          <div class="orbit" aria-hidden="true">
-            <span>PI</span>
-            <span>DNA</span>
-            <span>SUM</span>
-            <span>MLA</span>
-          </div>
-        </header>
-
-        <nav class="quick-actions" aria-label="Quick academic actions">
-          <button type="button" data-prompt="Explain this topic step by step, then give me a simple example: ">
-            <span>Explain</span>
-            <small>Break down a concept</small>
-          </button>
-          <button type="button" data-prompt="Create a realistic study plan for this goal, with daily tasks and checkpoints: ">
-            <span>Study Plan</span>
-            <small>Organize revision</small>
-          </button>
-          <button type="button" data-prompt="Quiz me on this topic. Ask one question at a time and wait for my answer: ">
-            <span>Quiz Me</span>
-            <small>Practice actively</small>
-          </button>
-          <button type="button" data-prompt="Review this draft for clarity, structure, evidence, grammar, and academic tone: ">
-            <span>Review Draft</span>
-            <small>Improve writing</small>
-          </button>
-        </nav>
-
-        <section class="chat-card" aria-label="Assistant conversation">
-          <div id="chatLog" class="chat-log" aria-live="polite">
-            <article class="message assistant">
-              <div class="avatar">AI</div>
-              <div class="bubble">
-                <strong>Hi, I'm ScholarMate.</strong>
-                <p>Tell me what you're working on. I can explain tough topics, build study plans, quiz you, outline essays, debug code, summarize notes, or help you think through assignments ethically.</p>
-              </div>
-            </article>
-          </div>
-
-          <form id="chatForm" class="composer">
-            <textarea id="studentInput" rows="1" placeholder="Ask anything academic: paste a question, notes, draft, problem, or goal..." required></textarea>
-            <button id="sendButton" type="submit">Send</button>
-          </form>
-        </section>
-      </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScholarMate | AI learning workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-art"><span class="art-label">SCHOLARMATE / 01</span><div><h1>Learn with<br><em>momentum.</em></h1><p>A focused AI study partner for understanding more, remembering longer, and showing up prepared.</p></div><span class="art-note">Questions become confidence.</span></div>
+    <div class="auth-panel"><div class="brand"><div class="brand-mark">S</div><span>ScholarMate</span></div><div class="auth-copy"><span class="kicker">Your study workspace</span><h2 id="authTitle">Welcome back</h2><p id="authSubtitle">Sign in to pick up where you left off.</p></div><form id="authForm"><label>Email address<input id="authEmail" type="email" placeholder="you@example.com" required></label><label>Password<input id="authPassword" type="password" placeholder="At least 8 characters" minlength="8" required></label><label id="nameField" class="hidden">Your name<input id="authName" type="text" placeholder="Alex Johnson"></label><button class="primary wide" type="submit" id="authSubmit">Sign in</button></form><button class="text-button" id="toggleAuth" type="button">New to ScholarMate? Create an account</button><p class="legal">By continuing, you agree to learn responsibly and use ScholarMate as a study aid.</p></div>
+  </div>
+  <div id="appScreen" class="app-shell hidden">
+    <aside class="sidebar"><div class="brand"><div class="brand-mark">S</div><span>ScholarMate</span></div><div class="profile-chip"><div class="avatar small">AJ</div><div><strong id="userName">Alex Johnson</strong><span>College learner</span></div><button id="signOut" title="Sign out">↗</button></div><nav class="side-nav" aria-label="Main navigation"><button class="nav-item active" data-view="overview">⌂ <span>Overview</span></button><button class="nav-item" data-view="tutor">✦ <span>AI Tutor</span></button><button class="nav-item" data-view="quizzes">▣ <span>Quizzes</span><span class="nav-count">3</span></button><button class="nav-item" data-view="plans">◷ <span>Study plans</span></button><button class="nav-item" data-view="progress">↗ <span>Progress</span></button></nav><div class="sidebar-bottom"><div class="upgrade-card"><span class="kicker">Study smarter</span><strong>Build a habit that sticks.</strong><p>Keep your streak moving with a focused session today.</p><button class="secondary" data-view-target="plans">View plan</button></div><span class="version">ScholarMate AI · Personal workspace</span></div></aside>
+    <main class="main-stage"><header class="topbar"><div><span class="kicker">Wednesday, August 19</span><h1 id="pageTitle">Good morning, Alex.</h1></div><button class="avatar" id="profileButton">AJ</button></header>
+      <section id="overviewView" class="view active-view"><div class="welcome-banner"><div><span class="kicker light">Your learning pulse</span><h2>Small sessions.<br><em>Real progress.</em></h2><p>You have been consistent this week. Keep the rhythm going.</p></div><div class="streak"><strong>7</strong><span>day streak</span><div class="streak-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i class="today"></i></div></div></div><div class="section-head"><div><span class="kicker">Continue learning</span><h2>Pick up where you left off</h2></div><button class="link-button" data-view-target="progress">See all progress →</button></div><div class="subject-grid"><article class="subject-card blue"><span class="subject-icon">∑</span><span class="subject-tag">Calculus II</span><h3>Integration techniques</h3><div class="progress-line"><i style="width:72%"></i></div><small>72% complete · 18 min left</small><button class="card-link" data-view-target="tutor">Continue →</button></article><article class="subject-card mint"><span class="subject-icon">DNA</span><span class="subject-tag">Biology</span><h3>Cellular respiration</h3><div class="progress-line"><i style="width:45%"></i></div><small>45% complete · 24 min left</small><button class="card-link" data-view-target="quizzes">Practice quiz →</button></article><article class="subject-card lilac"><span class="subject-icon">Aa</span><span class="subject-tag">Academic writing</span><h3>Argument structure</h3><div class="progress-line"><i style="width:88%"></i></div><small>88% complete · Review ready</small><button class="card-link" data-view-target="tutor">Review notes →</button></article></div><div class="two-col"><section><div class="section-head compact"><div><span class="kicker">Your activity</span><h2>Recent sessions</h2></div></div><div class="activity-list"><div><span class="activity-icon orange">✦</span><p><strong>Integration techniques</strong><small>AI Tutor · Today, 9:42 AM</small></p><b>+12 pts</b></div><div><span class="activity-icon green">✓</span><p><strong>Biology fundamentals quiz</strong><small>Quiz completed · Yesterday</small></p><b>86%</b></div><div><span class="activity-icon purple">◷</span><p><strong>Essay outline study plan</strong><small>Plan created · Monday</small></p><b>Saved</b></div></div></section><section class="daily-goal"><span class="kicker">Daily goal</span><h2>24 / 30 min</h2><p>Six more minutes keeps your streak on track.</p><div class="goal-ring"><span>80%</span></div><button class="primary" data-view-target="tutor">Start a session</button></section></div></section>
+      <section id="tutorView" class="view"><div class="view-header"><div><span class="kicker">Personal AI tutor</span><h2>What are you learning today?</h2><p>Ask a question, paste your notes, or choose a guided activity.</p></div><span class="online-dot">● Tutor online</span></div><div class="quick-prompts"><button data-prompt="Explain this topic in a simple way with an example: ">Explain a concept<small>Make it click</small></button><button data-prompt="Create a study plan for: ">Build a study plan<small>Map the next steps</small></button><button data-prompt="Quiz me on: ">Practice with a quiz<small>Test your recall</small></div><section class="chat-card"><div id="chatLog" class="chat-log"><article class="message assistant"><div class="avatar">S</div><div class="bubble"><strong>Hi, Alex. I’m ready when you are.</strong><p>Ask me anything academic. I’ll explain the reasoning clearly, use readable sections, and help you build the answer yourself.</p></div></article></div><form id="chatForm" class="composer"><textarea id="studentInput" rows="1" placeholder="Ask a question, paste notes, or describe a goal..." required></textarea><button class="primary" id="sendButton" type="submit">Send</button></form></section></section>
+      <section id="quizzesView" class="view"><div class="view-header"><div><span class="kicker">Active recall</span><h2>Generate a quiz</h2><p>Turn any topic into a focused practice session.</p></div></div><div class="quiz-builder"><label>Topic<input id="quizTopic" placeholder="e.g. Photosynthesis, World War I, JavaScript"></label><label>Difficulty<select id="quizDifficulty"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select></label><label>Questions<select id="quizLength"><option>5 questions</option><option selected>10 questions</option><option>15 questions</option></select></label><button class="primary" id="generateQuiz">Generate quiz</button></div><div id="quizResult" class="quiz-result"><div class="empty-state"><span class="empty-icon">▣</span><h3>Your next quiz starts here</h3><p>Choose a topic above and ScholarMate will create questions with explanations, not just answers.</p></div></div></section>
+      <section id="plansView" class="view"><div class="view-header"><div><span class="kicker">Structured progress</span><h2>Study plans</h2><p>Turn big goals into small, doable sessions.</p></div><button class="primary" data-prompt="Create a 7-day study plan for: ">+ New plan</button></div><div class="plan-card"><div class="plan-icon">↗</div><div><span class="kicker">In progress · 4 days left</span><h3>Midterm preparation</h3><p>Calculus II · Biology · Academic writing</p><div class="plan-progress"><i style="width:62%"></i></div><small>62% complete · 9 of 14 sessions</small></div><button class="link-button" data-view-target="tutor">Open plan →</button></div></section>
+      <section id="progressView" class="view"><div class="view-header"><div><span class="kicker">Your progress</span><h2>Momentum, measured.</h2><p>See what is improving and where to focus next.</p></div></div><div class="metric-grid"><div><span>Study time</span><strong>4h 32m</strong><small>+18% this week</small></div><div><span>Quiz accuracy</span><strong>84%</strong><small>+6% this week</small></div><div><span>Topics mastered</span><strong>12</strong><small>2 this week</small></div></div><div class="focus-card"><span class="kicker">Suggested focus</span><h3>Cellular respiration</h3><p>Your quiz answers show this topic could use one more short review session.</p><button class="primary" data-view-target="quizzes">Practice now</button></div></section>
     </main>
-
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
-    <script src="./config.js"></script>
-    <script src="./app.js"></script>
-  </body>
+  </div><div id="toast" class="toast" role="status" aria-live="polite"></div><script src="./app.js"></script>
+</body>
 </html>
