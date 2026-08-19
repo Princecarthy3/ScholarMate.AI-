@@ -124,9 +124,21 @@ async function askGemini(question) {
 
     console.log("Status:", response.status);
 
-    const data = await response.json();
+const responseText = await response.text();
 
-    console.log("Response data:", data);
+console.log("Raw response:", responseText);
+
+let data;
+
+try {
+  data = JSON.parse(responseText);
+} catch (error) {
+  throw new Error(
+    `Server did not return valid JSON. Response: ${responseText.substring(0, 300)}`
+  );
+}
+
+console.log("Response data:", data);
 
     if (!response.ok) {
       throw new Error(data.error || `HTTP ${response.status}`);
